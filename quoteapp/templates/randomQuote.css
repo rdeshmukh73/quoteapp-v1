@@ -1,0 +1,51 @@
+body {
+    background-color: lightblue;
+    margin: 100px;    
+  }
+  
+  button {
+    display: block;
+    margin: 0 auto;
+    font-weight: bold
+  }
+
+  label{
+    font-weight: bold
+  }
+  
+  input[type="text"] {
+    font-weight: bold;
+    font-size:large
+  }
+
+  textarea{
+    font-weight: bold
+    }
+
+.large-font {
+        font-size: 22px;
+     }
+
+     p {
+        font-weight: bold;
+        font-size: 20px;
+      }
+
+      #basic-data {
+        color: red;
+        animation: blink 5s linear infinite;
+      }
+      
+      @keyframes blink {
+        0% {
+          opacity: 1;
+        }
+        50% {
+          opacity: 0;
+        }
+        100% {
+          opacity: 1;
+        }
+      }
+      
+          

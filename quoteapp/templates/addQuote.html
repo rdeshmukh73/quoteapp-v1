@@ -1,0 +1,80 @@
+<!-- HTML page with a text box and a button -->
+<html>
+    <link href="randomQuote.css" rel="stylesheet" type="text/css" media="screen" />
+    <head>
+        <style>
+          h1 {
+            text-align: center;
+          }
+        </style>
+        <style>
+            label {
+              display: block;
+              margin-bottom: 10px;
+              font-weight: bold;
+            }
+        
+            input[type="text"] {
+              width: 250px;
+              height: 25px;
+              padding: 5px;
+              border: 1px solid rgb(11, 10, 10);
+              font-size: 14px;
+            }
+          </style>
+      </head>
+  <body>
+    <header>
+        <h1>Add a New Quote</h1>
+      </header>
+      <p style="font-weight: bold; font-size: 16px;">Click <a href="home.html">here</a> to Navigate HOME.</p>
+      <br>
+      <label for="text" size="12">Author:</label>
+      <input type="text" id="author" required size="80"/>
+      <br><br>
+      <label for="freeform" size="12">Quote Text:</label><br>
+      <textarea 
+            id="quote" name="quote" required rows="7" cols="75">
+      </textarea>
+      <br><br>
+      <label for="text" size="12">Source:</label>
+      <input type="text" id="source" required size="80"/>
+      <br><br>
+      <label for="text" size="12">Tags:</label>
+      <input type="text" id="tags" size="80"/>
+      <br><br>
+      <label for="text" size="12">Likes:</label>
+      <input type="number" min=0 max=50000 pattern="\d*" id="likes" required>
+      <br><br>
+      <button id="addquote" onclick="addQuote()">Add Quote</button>
+
+  </body>
+</html>
+
+<script>
+    const btnAddQuote = document.getElementById('addquote');
+    function addQuote(){
+    const txtAuthor = document.getElementById('author');
+    const txtQuote = document.getElementById('quote');
+    const txtSource = document.getElementById('source');
+    const txtTags = document.getElementById('tags');
+    const numLikes = document.getElementById('likes');
+
+    //btnAddQuote.addEventListener('click', () => {
+        let jsonBody = {'Quote':txtQuote.value, 'Author': txtAuthor.value, 'Source': txtSource.value, 'Tags': txtTags.value, 'Likes': numLikes.value};
+        //alert(JSON.stringify(jsonBody));
+
+    // Make an API call using the fetch function
+    fetch('http://localhost:5000/addQuote', 
+        { method: 'POST',
+        headers: {'Content-Type':'application/json'},
+        body: JSON.stringify(jsonBody)    
+    })
+      .then(response => {
+        if (response.ok){return response.text;}
+        else {throw new Error ('Add Quote Data Failed');} // parse the response as JSON
+      })
+      .then(text => {alert(text);})
+      .catch(error => {alert(error.message);});
+}
+</script>

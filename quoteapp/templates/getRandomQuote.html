@@ -1,0 +1,105 @@
+<!-- HTML page with a text box and a button -->
+<html>
+    <link href="randomQuote.css" rel="stylesheet" type="text/css" media="screen" />
+    <head>
+        <style>
+          h1 {
+            text-align: center;
+          }
+        </style>
+            <script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script>  
+            <script src="https://platform.linkedin.com/in.js" type="text/javascript">lang: en_US</script>
+      </head>
+  <body>
+    <header>
+        <h1>Get Some Random Quotes ... </h1>
+      </header>
+    <p style="font-weight: bold; font-size: 16px;">Click <a href="home.html">here</a> to Navigate HOME.</p>
+    <button id="get-response-button">Get Random Quote</button>
+      <br><br>
+    <label for="text">Author:</label>
+    <input type="text" id="response-text" size="80"/>
+    <br><br>
+    <label for="freeform">Quote Text:</label><br>
+        <textarea 
+            class="large-font" id="freeform" name="freeform" rows="5" cols="100" >
+        </textarea>
+  <br>
+      <div id="tweet-button"></div>   
+      <div id="linkedin-button"></div>
+      
+      <script type="IN/Share" data-text="Sample Text" data-size="large" data-url="www.cricinfo.com"> </script>
+    
+  </body>
+</html>
+
+<script>
+  // Get a reference to the button and text box
+  const button = document.getElementById('get-response-button');
+  const textBox = document.getElementById('response-text');
+  const bigTextBox = document.getElementById('freeform');
+  const tweetButton = document.getElementById('tweet-button');
+
+  
+
+  //tweetButton.addEventListener('click', function() {
+  //  alert("Tweet button clicked");
+    //tweetButton.setAttribute('data-text', tweetString);
+  //});
+
+   function setTweetText(tweetString){
+    //document.getElementById("tweet-button").innerHTML = '        <a href="https://twitter.com/share?ref_src=twsrc%5Etfw" class="twitter-share-button" data-show-count="false" data-size="large" data-via="raghdesh" data-text="'+tweetString+'">Tweet</a>'
+    document.getElementById("tweet-button").innerHTML = '<a href="https://twitter.com/share?ref_src=twsrc%5Etfw" class="twitter-share-button" data-show-count="false" data-url="- QuoteApp" data-size="large" data-via="raghdesh" data-text="'+tweetString+'">Tweet</a>'
+    twttr.widgets.load()
+    let url = 'https://www.linkedin.com';
+    //document.getElementById("linkedin-button").innerHTML = ' <a type="IN/Share" data-size="large" data-text="'+tweetString+'" data-url="'+url+'"></a> '
+    //document.querySelector('script[type="IN/Share"]').setAttribute('data-text', tweetString);
+
+   } 
+  //function setTweetText(tweetString)
+  //{
+//    document.getElementById("tweet-button").innerHTML = "<a href="https://twitter.com/share?ref_src=twsrc%5Etfw" class="twitter-share-button" data-show-count="false" data-size="large" data-via="raghavdesh" data-text=tweetString>Tweet</a>";
+//  }  
+    /*
+    alert(tweetString.length);
+    if (tweetString.length <= 240) {
+      tweetButton.setAttribute('disabled', 'false');
+      tweetButton.setAttribute('data-text', tweetString);
+      alert(tweetString);
+    }
+    else{
+      alert("GT 240");
+      tweetButton.setAttribute('disabled', 'true')
+    }*/
+
+  
+
+  // Add an event listener to the button
+  //button.addEventListener('click', () => {
+  window.onload = function() {  
+    // Make an API call using the fetch function
+    fetch('http://localhost:5000/getRandomQuote', { method: 'GET' })
+      .then(response => response.json()) // parse the response as JSON
+      .then(data => {
+        // Set the text box value to the response data
+        bigTextBox.value = data.Quote;
+        textBox.value = data.Author;
+        let tweetString = bigTextBox.value + ' - By: ' + textBox.value;
+        setTweetText(tweetString);
+      });
+  };
+
+    button.addEventListener('click', () => {
+    // Make an API call using the fetch function
+    fetch('http://localhost:5000/getRandomQuote', { method: 'GET' })
+      .then(response => response.json()) // parse the response as JSON
+      .then(data => {
+        // Set the text box value to the response data
+        bigTextBox.value = data.Quote;
+        textBox.value = data.Author;
+        let tweetString = bigTextBox.value + ' - By: ' + textBox.value;
+        setTweetText(tweetString);
+      });
+  });
+
+</script>

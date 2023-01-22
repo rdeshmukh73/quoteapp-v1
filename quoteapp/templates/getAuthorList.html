@@ -1,0 +1,77 @@
+<!-- HTML page with a text box and a button -->
+<html>
+    <link href="randomQuote.css" rel="stylesheet" type="text/css" media="screen" />
+    <head>
+        <style>
+          h1 {
+            text-align: center;
+          }
+        </style>
+        <style>
+          .container {
+            display: inline-block;
+          }
+        </style>
+        <script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script>  
+
+      </head>
+  <body>
+    <header>
+        <h1>Get Authors and their Quotes</h1>
+      </header>
+      <p style="font-weight: bold; font-size: 16px;">Click <a href="home.html">here</a> to Navigate HOME.</p>
+      <br>
+      <div class="container" id="list-container"></div>
+      <div class="container">
+        <textarea 
+        class="large-font" id="freeform" name="freeform" rows="10" cols="75">
+        </textarea>
+      </div>
+      <br>  <br>
+      <div id="tweet-button"></div>   
+  </body>
+</html>
+    
+
+<script>
+  // Call the API and get the data
+  fetch('http://localhost:5000/getAuthorList')
+    .then(response => response.json())
+    .then(data => {
+      // Create the select element
+      const select = document.createElement('select');
+      select.size = 20;
+
+      // Create the options
+      data.forEach(item => {
+        const option = document.createElement('option');
+        option.value = item;
+        option.text = item;
+        select.appendChild(option);
+      });
+
+      // Add the select element to the page
+      const listContainer = document.getElementById('list-container');
+      listContainer.appendChild(select);
+    });
+
+
+    let myList = document.getElementById('list-container')
+    let quoteBox = document.getElementById('freeform');
+    myList.addEventListener('click', function(event) {
+      var selectedText = event.target.innerText;
+      //alert(selectedText)
+      let url = 'http://localhost:5000/getRandomQuoteForAuthor/' + selectedText
+      fetch(url)
+    .then(response => response.json())
+    .then(data => {
+      // Create the select element
+        quoteBox.value = data.Quote;
+        let tweetString = quoteBox.value + " - By: " + selectedText;
+        document.getElementById("tweet-button").innerHTML = '<a href="https://twitter.com/share?ref_src=twsrc%5Etfw" class="twitter-share-button" data-show-count="false" data-url="- QuoteApp" data-size="large" data-via="raghdesh" data-text="'+tweetString+'">Tweet</a>'
+        twttr.widgets.load()
+
+
+      });  
+    })
+</script>
