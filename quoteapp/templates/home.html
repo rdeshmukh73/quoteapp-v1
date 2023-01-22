@@ -1,0 +1,54 @@
+<html>
+    <link href="randomQuote.css" rel="stylesheet"  />
+  <head>
+    <title>Quote App - Raghavendra</title>
+  </head>
+  <body>
+    <header>
+      <h1>Welcome to my Good Quotes App</h1>
+    </header>
+    <h2>About this App</h2>
+    <p>This is an App that will show you some Good Quotes worth reading and will surely inspire you.  These Quotes picked from world renowned leaders, actors, sportspersons, authors, thinkers and more is for your consumption.</p>
+    <p id="basic-data"></p>
+    <h2>About Me</h2>
+    <p>I work in the Software Industry, a Python Rookie who is learning the skills and trying to rekindle his interest in Coding and explore more on Cloud.</p>
+    <h3>Some other things</h3>
+    <ul>
+      <li>India based</li>
+      <li>Has crossed the mid-life crisis and is settling well into life</li>
+    </ul>
+    <h2>Webpage description</h2>
+    <textarea class="large-font" rows="2" cols="100" disabled>This is just a sample attempt to build a service and present it on the Web... 
+    </textarea>
+  </body>
+  
+  <h2> Services Offered </h2>
+  <p style="font-weight: bold; font-size: 16px;">Get <a href="table.html">All Quotes</a> </p>
+  <p style="font-weight: bold; font-size: 16px;">Get <a href="getRandomQuote1.html">a Random Quote</a> </p>
+  <p style="font-weight: bold; font-size: 16px;">Get <a href="getAuthorList.html">List of Authors</a> </p>
+  <p style="font-weight: bold; font-size: 16px;">Add <a href="addQuote.html">a New Quote</a> </p>
+
+</html>
+
+<script>
+    // Get a reference to the button and text box
+    const basicDataElement = document.getElementById('basic-data');
+  
+    // Add an event listener to the button
+    //button.addEventListener('click', () => {
+    window.onload = function() {  
+      // Make an API call using the fetch function
+      fetch('http://localhost:5000/getBasicDetails', { method: 'GET' })
+        .then(response => response.json()) // parse the response as JSON
+        .then(data => {
+          let quoteCount = data.TotalQuotes;
+          let authorCount = data.UniqueAuthors;
+          let quoteString = "Total Quotes: " + quoteCount;
+          let authorString = "Unique Authors: " + authorCount;
+          let sepString = " & "
+          let finalString = quoteString + sepString + authorString;
+          basicDataElement.innerHTML = finalString;
+
+        });
+    };
+   </script> 
