@@ -1,0 +1,67 @@
+<!-- HTML page with a text box and a button -->
+<html>
+    <link href="randomQuote.css" rel="stylesheet" type="text/css" media="screen" />
+    <head>
+        <style>
+          h1 {
+            text-align: center;
+          }
+        </style>
+        <style>
+          .container {
+            display: inline-block;
+          }
+        </style>
+      </head>
+  <body>
+    <header>
+        <h1>Get Author List </h1>
+      </header>
+      <div class="container" id="list-container"></div>
+      <div class="container">
+        <textarea 
+        class="large-font" id="freeform" name="freeform" rows="10" cols="75">
+        </textarea>
+      </div>
+
+  </body>
+</html>
+    
+
+<script>
+  // Call the API and get the data
+  fetch('http://localhost:5000/getAuthorList')
+    .then(response => response.json())
+    .then(data => {
+      // Create the select element
+      const select = document.createElement('select');
+      select.size = 20;
+
+      // Create the options
+      data.forEach(item => {
+        const option = document.createElement('option');
+        option.value = item;
+        option.text = item;
+        select.appendChild(option);
+      });
+
+      // Add the select element to the page
+      const listContainer = document.getElementById('list-container');
+      listContainer.appendChild(select);
+    });
+
+
+    let myList = document.getElementById('list-container')
+    let quoteBox = document.getElementById('freeform');
+    myList.addEventListener('click', function(event) {
+      var selectedText = event.target.innerText;
+      //alert(selectedText)
+      let url = 'http://localhost:5000/getRandomQuoteForAuthor/' + selectedText
+      fetch(url)
+    .then(response => response.json())
+    .then(data => {
+      // Create the select element
+        quoteBox.value = data.Quote;
+      });  
+    })
+</script>
