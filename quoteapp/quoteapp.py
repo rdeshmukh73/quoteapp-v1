@@ -7,6 +7,7 @@ import hashlib
 import json
 from flask_cors import CORS
 from google.cloud import pubsub_v1
+from postQuoteToLinkedin import postQuoteToLinkedin
 
 # Create a Flask App
 app = Flask(__name__)
@@ -166,6 +167,16 @@ def getAuthorList():
     # Enable Access-Control-Allow-Origin
     response.headers.add("Access-Control-Allow-Origin", "*")
     return response
+
+#To post a Quote to LinkedIn
+@app.route('/postQuoteToLinkedIn', methods=['POST'])
+def postQuoteToLinkedIn():
+    quote = request.data.decode()
+    print(quote)
+    if postQuoteToLinkedin(quote) == True:
+        return make_response("Posting to LinkedIn Successful", 200)
+    else:
+        return make_response("Failed to Post to LinkedIn", 400)    
 
 
 #To find a Random Quote From a chosen Author
